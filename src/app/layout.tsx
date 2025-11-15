@@ -40,8 +40,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Saunapoints",
-  description: "Saunapoints - your sauna experience tracking app",
+  title: "Saunapoint",
+  description: "Saunapoint - your sauna experience tracking app",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

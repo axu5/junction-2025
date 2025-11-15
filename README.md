@@ -1,4 +1,4 @@
-# Saunapoints
+# Saunapoint
 
 This is a part of the Junction 2025: Utopia vs Dystopia Harvia Sauna Challenge.
 

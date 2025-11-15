@@ -10,7 +10,7 @@ export default function Leaderboard() {
 
       <div className='flex flex-col items-center gap-y-3'>
         <SoEmpty
-          info="You haven't added any friends on Saunapoints yet"
+          info="You haven't added any friends on Saunapoint yet"
           ctaHref='/profile/friends/add'
           cta={
             <>
