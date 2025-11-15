@@ -12,10 +12,13 @@ import {
 import { GoogleLoginButton } from "./login-with-google";
 import { Button } from "./ui/button";
 
-export function LoginRequiredDrawer({ children }: PropsWithChildren) {
+export function LoginRequiredDrawer({
+  children,
+  asChild = false,
+}: PropsWithChildren & { asChild?: boolean }) {
   return (
     <Drawer>
-      <DrawerTrigger>{children}</DrawerTrigger>
+      <DrawerTrigger {...{ asChild }}>{children}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Login</DrawerTitle>

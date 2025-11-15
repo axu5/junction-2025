@@ -1,5 +1,5 @@
 import { SoEmpty } from "@/components/so-empty";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { db } from "@/db";
 import {
@@ -15,6 +15,7 @@ import { eq, and, or, desc, asc, sql, inArray } from "drizzle-orm";
 import { Flame, MapPin, UserRound } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { LoginRequiredDrawer } from "@/components/login-required-drawer";
 
 /**
  * Logged-out -> See public saunas, read public experiences.
@@ -217,13 +218,9 @@ export default async function Home() {
             <h2 className='text-sm font-semibold flex items-center gap-2'>
               <Flame className='w-4 h-4' /> Recent public experiences
             </h2>
-            <Link
-              href='/login'
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" })
-              )}>
-              Sign in to log yours
-            </Link>
+            <LoginRequiredDrawer asChild>
+              <Button>Sign in to log yours</Button>
+            </LoginRequiredDrawer>
           </div>
 
           {publicExperiences.length === 0 && (
