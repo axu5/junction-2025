@@ -11,6 +11,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { InsertExperience } from "@/db/schema";
 import { UploadButton } from "@/lib/uploadthing";
@@ -66,6 +67,9 @@ export default function NewSaunaExperienceClient({
 
   const [rating, setRating] = useState<number>(5);
   const [content, setContent] = useState("");
+  const [visibility, setVisibility] = useState<"public" | "unlisted">(
+    "unlisted"
+  );
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isPosting, setIsPosting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -81,6 +85,7 @@ export default function NewSaunaExperienceClient({
       rating,
       content,
       imageUrl,
+      visibility,
     } satisfies Omit<InsertExperience, "authorId"> & {
       imageUrl: string | null;
     };
@@ -254,6 +259,36 @@ export default function NewSaunaExperienceClient({
                   })}
                 />
               ))}
+            </div>
+          </div>
+
+          {/* VISIBILITY */}
+          <div className='flex flex-col gap-y-2'>
+            <Label>Visibility</Label>
+            <div className='flex items-center justify-between p-3 border rounded-xl bg-bg-surface'>
+              <span className='text-sm'>
+                Public (visible to everyone)
+              </span>
+
+              <Switch
+                checked={visibility === "public"}
+                onCheckedChange={checked => {
+                  setVisibility(
+                    checked && selectedSauna.visibility === "public"
+                      ? "public"
+                      : "unlisted"
+                  );
+
+                  if (
+                    checked &&
+                    selectedSauna.visibility !== "public"
+                  ) {
+                    toast(
+                      "This sauna is not public so you cannot leave a public review"
+                    );
+                  }
+                }}
+              />
             </div>
           </div>
 

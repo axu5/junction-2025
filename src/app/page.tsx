@@ -214,7 +214,7 @@ export default async function Home() {
       {/* LOGGED-OUT: PUBLIC EXPERIENCES */}
       {!isLoggedIn && (
         <section className='flex flex-col gap-y-3'>
-          <div className='flex items-center justify-between'>
+          <div className='flex flex-col gap-y-2 items-center justify-between'>
             <h2 className='text-sm font-semibold flex items-center gap-2'>
               <Flame className='w-4 h-4' /> Recent public experiences
             </h2>

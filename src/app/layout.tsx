@@ -62,7 +62,7 @@ export default function RootLayout({
         <main className='px-10 mb-24'>{children}</main>
 
         <Navbar />
-        <Toaster />
+        <Toaster position='top-center' />
       </body>
     </html>
   );
