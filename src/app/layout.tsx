@@ -1,33 +1,19 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Link from "next/link";
+import { LoginRequiredDrawer } from "@/components/login-required-drawer";
+import { getSession } from "@/lib/auth";
 import {
-  Check,
   Flame,
   Gamepad2,
-  Heater,
   LogIn,
   Medal,
   Plus,
   UserRoundPen,
 } from "lucide-react";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import { PropsWithChildren } from "react";
-import { GoogleLoginButton } from "@/components/login-with-google";
-import { getSession } from "@/lib/auth";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 import { Toaster } from "sonner";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -84,6 +70,7 @@ export default function RootLayout({
 
 async function Navbar() {
   const session = await getSession();
+  const isLoggedIn = !!session;
 
   return (
     <nav className='fixed bottom-5 left-1/2 -translate-x-1/2 rounded-full backdrop-blur-xl bg-white/20 shadow-lg border border-white/10'>
@@ -100,11 +87,19 @@ async function Navbar() {
             </Link>
           </li>
           <li className='py-2'>
-            <Link
-              href='/new-sauna-experience'
-              className='border-black block rounded-full border-2'>
-              <Plus className='w-6 h-6 m-2' />
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                href='/new-sauna-experience'
+                className='border-black block rounded-full border-2'>
+                <Plus className='w-6 h-6 m-2' />
+              </Link>
+            ) : (
+              <LoginRequiredDrawer>
+                <div className='border-black block rounded-full border-2'>
+                  <Plus className='w-6 h-6 m-2' />
+                </div>
+              </LoginRequiredDrawer>
+            )}
           </li>
           <li className='py-2'>
             <Link href='/sauna-experiences' className=''>
@@ -137,26 +132,5 @@ async function Navbar() {
         </ul>
       </div>
     </nav>
-  );
-}
-
-function LoginRequiredDrawer({ children }: PropsWithChildren) {
-  return (
-    <Drawer>
-      <DrawerTrigger>{children}</DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Login</DrawerTitle>
-        </DrawerHeader>
-        <DrawerDescription className='w-[80%] mx-auto'>
-          <GoogleLoginButton />
-        </DrawerDescription>
-        <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant='outline'>Stay logged out</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
   );
 }
