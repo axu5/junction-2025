@@ -35,3 +35,30 @@ export const userFriendsTable = sqliteTable(
 
 export type InsertUserFriend = typeof userFriendsTable.$inferInsert;
 export type SelectUserFriend = typeof userFriendsTable.$inferSelect;
+
+export const friendInvitesTable = sqliteTable(
+  "friend_invites",
+  {
+    inviterId: text("inviter_id")
+      .notNull()
+      .references(() => auth.user.id, { onDelete: "cascade" }),
+
+    inviteeEmail: text("invitee_email").notNull(), // normalized lower-case
+    inviteeUserId: text("invitee_user_id").references(
+      () => auth.user.id,
+      {
+        onDelete: "set null",
+      }
+    ),
+
+    sentAt: integer("sent_at", { mode: "timestamp" }).$defaultFn(
+      () => new Date()
+    ),
+
+    ...defaults,
+  },
+  table => [
+    // only one invite per inviter+email
+    primaryKey({ columns: [table.inviterId, table.inviteeEmail] }),
+  ]
+);

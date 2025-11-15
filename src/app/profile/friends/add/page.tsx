@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { toast } from "sonner";
+import { z } from "zod";
 
 export default function AddFriendPage() {
   const [identifier, setIdentifier] = useState("");
@@ -19,7 +20,7 @@ export default function AddFriendPage() {
 
     const trimmed = identifier.trim();
     if (!trimmed) {
-      toast.error("Please enter a username or email");
+      toast.error("Please enter an email");
       return;
     }
 
@@ -32,7 +33,7 @@ export default function AddFriendPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          identifier: trimmed, // e.g. "@axu" or "user@example.com"
+          email: trimmed,
         }),
       });
 
@@ -46,7 +47,7 @@ export default function AddFriendPage() {
       setLastRequested(trimmed);
       setIdentifier("");
 
-      toast.success("Friend request sent ✨");
+      toast.success("Friend request sent");
     } catch (err: any) {
       toast.error(err?.message ?? "Something went wrong");
     } finally {
@@ -81,7 +82,11 @@ export default function AddFriendPage() {
           <Button
             type='submit'
             className='w-full'
-            disabled={isLoading || !identifier.trim()}>
+            disabled={
+              isLoading ||
+              !identifier.trim() ||
+              !z.email().safeParse(identifier.trim()).success
+            }>
             {isLoading ? "Sending..." : "Send friend request"}
           </Button>
         </form>
