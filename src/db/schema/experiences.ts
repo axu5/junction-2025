@@ -26,6 +26,11 @@ export const experienceTable = sqliteTable(
     // content where mentions are stored as @<user_id>
     content: text("content").notNull(),
 
+    visibility: text("visibility")
+      .$type<"public" | "unlisted">()
+      .notNull()
+      .default("unlisted"),
+
     // numeric rating (e.g. 1–5)
     rating: integer("rating").notNull(),
 
