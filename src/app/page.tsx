@@ -223,7 +223,9 @@ export default async function Home() {
               <Flame className='w-4 h-4' /> Recent public experiences
             </h2>
             <LoginRequiredDrawer asChild>
-              <Button>Sign in to log yours</Button>
+              <Button variant='outline' className='bg-accent'>
+                Sign in to log yours
+              </Button>
             </LoginRequiredDrawer>
           </div>
 

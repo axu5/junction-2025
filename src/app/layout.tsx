@@ -2,13 +2,13 @@ import { LoginRequiredDrawer } from "@/components/login-required-drawer";
 import { getSession } from "@/lib/auth";
 import {
   Flame,
-  Gamepad2,
   Home,
   LogIn,
   Medal,
   Plus,
   UserRoundPen,
 } from "lucide-react";
+import "mapbox-gl/dist/mapbox-gl.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
@@ -68,9 +68,17 @@ async function Navbar() {
             </Link>
           </li>
           <li className='py-2'>
-            <Link href='/sauna-experiences' className=''>
-              <Flame className='w-5 h-5 m-2' />
-            </Link>
+            {isLoggedIn ? (
+              <Link href='/sauna-experiences' className=''>
+                <Flame className='w-5 h-5 m-2' />
+              </Link>
+            ) : (
+              <LoginRequiredDrawer>
+                <div>
+                  <Flame className='w-5 h-5 m-2' />
+                </div>
+              </LoginRequiredDrawer>
+            )}
           </li>
           <li className='py-2'>
             {isLoggedIn ? (
@@ -88,9 +96,17 @@ async function Navbar() {
             )}
           </li>
           <li className='py-2'>
-            <Link href='/leaderboard' className=''>
-              <Medal className='w-5 h-5 m-2' />
-            </Link>
+            {isLoggedIn ? (
+              <Link href='/leaderboard' className=''>
+                <Medal className='w-5 h-5 m-2' />
+              </Link>
+            ) : (
+              <LoginRequiredDrawer>
+                <div>
+                  <Medal className='w-5 h-5 m-2' />
+                </div>
+              </LoginRequiredDrawer>
+            )}
           </li>
           {session ? (
             <li className='py-2'>

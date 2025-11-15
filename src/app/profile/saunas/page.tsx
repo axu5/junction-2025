@@ -6,7 +6,7 @@ import { saunaOwnersTable, saunaTable } from "@/db/schema";
 import { getSession } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { eq } from "drizzle-orm";
-import { Plus } from "lucide-react";
+import { ChevronLeft, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -30,8 +30,14 @@ export default async function MySaunas() {
 
   return (
     <div className='flex flex-col gap-y-5'>
-      <div className='flex w-full flex-row items-center justify-center'>
+      <div className='flex w-full flex-row items-center justify-between gap-y-2'>
+        <Link
+          href='/profile'
+          className='flex flex-row items-center gap-x-2'>
+          <ChevronLeft />
+        </Link>
         <h1 className='font-semibold text-2xl'>My Saunas</h1>
+        <div />
       </div>
 
       {mySaunas.length === 0 && (
@@ -50,8 +56,8 @@ export default async function MySaunas() {
           <Link
             href='/profile/saunas/add'
             className={cn(
-              buttonVariants({ variant: "ghost" }),
-              "flex flex-row items-center gap-x-2"
+              buttonVariants({ variant: "outline" }),
+              "flex flex-row items-center gap-x-2 bg-accent"
             )}>
             <Plus /> Add a sauna
           </Link>

@@ -11,7 +11,7 @@ import { user, userFriendsTable } from "@/db/schema";
 import { getSession } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { and, eq, or, sql } from "drizzle-orm";
-import { Plus, UserRound } from "lucide-react";
+import { ChevronLeft, Plus, UserRound } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -110,40 +110,23 @@ export default async function FriendsPage() {
     )
     .where(eq(userFriendsTable.status, "pending"));
 
-  // --- Blocked ---
-  const myBlocked = await db
-    .select({
-      relation: userFriendsTable,
-      otherUser: user,
-    })
-    .from(userFriendsTable)
-    .innerJoin(
-      user,
-      or(
-        and(
-          eq(userFriendsTable.userId, currentUserId),
-          eq(user.id, userFriendsTable.friendId)
-        ),
-        and(
-          eq(userFriendsTable.friendId, currentUserId),
-          eq(user.id, userFriendsTable.userId)
-        )
-      )
-    )
-    .where(eq(userFriendsTable.status, "blocked"));
-
   return (
     <div className='flex flex-col gap-y-5'>
-      <div className='flex w-full flex-row items-center justify-center'>
+      <div className='flex w-full flex-row items-center justify-between gap-y-2'>
+        <Link
+          href='/profile'
+          className='flex flex-row items-center gap-x-2'>
+          <ChevronLeft />
+        </Link>
         <h1 className='font-semibold text-2xl'>
           My Friends ({myFriends.length})
         </h1>
+        <div />
       </div>
 
       {myFriends.length === 0 &&
         incomingPending.length === 0 &&
-        outgoingPending.length === 0 &&
-        myBlocked.length === 0 && (
+        outgoingPending.length === 0 && (
           <SoEmpty
             info='You have no friends added'
             ctaHref='/profile/friends/add'
@@ -155,10 +138,17 @@ export default async function FriendsPage() {
           />
         )}
 
+      <Link
+        href='/profile/friends/add'
+        className={cn(
+          buttonVariants({ variant: "outline" }),
+          "flex flex-row items-center gap-x-2 justify-start bg-accent"
+        )}>
+        <Plus className='w-4 h-4' /> Add a friend
+      </Link>
       {(myFriends.length > 0 ||
         incomingPending.length > 0 ||
-        outgoingPending.length > 0 ||
-        myBlocked.length > 0) && (
+        outgoingPending.length > 0) && (
         <Tabs defaultValue='friends'>
           <TabsList className='w-full'>
             <TabsTrigger value='friends' className='flex-1'>
@@ -167,23 +157,11 @@ export default async function FriendsPage() {
             <TabsTrigger value='pending' className='flex-1'>
               Pending
             </TabsTrigger>
-            <TabsTrigger value='blocked' className='flex-1'>
-              Blocked
-            </TabsTrigger>
           </TabsList>
 
           {/* FRIENDS TAB */}
           <TabsContent value='friends' className='mt-4'>
             <div className='flex flex-col gap-y-3'>
-              <Link
-                href='/profile/friends/add'
-                className={cn(
-                  buttonVariants({ variant: "ghost" }),
-                  "flex flex-row items-center gap-x-2 justify-start"
-                )}>
-                <Plus className='w-4 h-4' /> Add a friend
-              </Link>
-
               {myFriends.length === 0 && (
                 <p className='text-sm text-muted-foreground mt-2'>
                   No accepted friends yet.
@@ -336,50 +314,6 @@ export default async function FriendsPage() {
                 )}
               </div>
             </div>
-          </TabsContent>
-
-          {/* BLOCKED TAB */}
-          <TabsContent value='blocked' className='mt-4'>
-            {myBlocked.length === 0 && (
-              <p className='text-sm text-muted-foreground'>
-                You haven&apos;t blocked anyone.
-              </p>
-            )}
-
-            {myBlocked.length > 0 && (
-              <ul className='flex flex-col gap-y-2'>
-                {myBlocked.map(({ relation, otherUser }) => (
-                  <li
-                    key={`${relation.userId}-${relation.friendId}`}
-                    className='flex items-center justify-between rounded-lg border px-3 py-2'>
-                    <div className='flex items-center gap-2'>
-                      {otherUser.image ? (
-                        <img
-                          src={otherUser.image}
-                          alt={otherUser.name ?? "User"}
-                          className='w-8 h-8 rounded-full object-cover'
-                        />
-                      ) : (
-                        <UserRound className='w-8 h-8 text-neutral-500' />
-                      )}
-                      <div className='flex flex-col'>
-                        <span className='text-sm font-medium'>
-                          {otherUser.name ?? "Unknown user"}
-                        </span>
-                        {otherUser.email && (
-                          <span className='text-xs text-neutral-500'>
-                            {otherUser.email}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <span className='text-xs text-neutral-500'>
-                      Blocked
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
           </TabsContent>
         </Tabs>
       )}

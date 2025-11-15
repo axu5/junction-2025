@@ -1,5 +1,6 @@
 "use client";
 
+import { MapPicker } from "@/components/map-picker";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,8 +20,8 @@ export default function AddSaunaForm() {
     "unlisted"
   );
 
-  const [lat, setLat] = useState<string>("");
-  const [lng, setLng] = useState<string>("");
+  const [lat, setLat] = useState<number>(60.1699);
+  const [lng, setLng] = useState<number>(24.9384);
 
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(
@@ -40,8 +41,8 @@ export default function AddSaunaForm() {
 
     navigator.geolocation.getCurrentPosition(
       position => {
-        setLat(position.coords.latitude.toFixed(6));
-        setLng(position.coords.longitude.toFixed(6));
+        setLat(position.coords.latitude);
+        setLng(position.coords.longitude);
         setIsGettingLocation(false);
       },
       err => {
@@ -170,41 +171,36 @@ export default function AddSaunaForm() {
         <div className='flex flex-col gap-y-2'>
           <Label>Location *</Label>
 
-          <div className='flex gap-3'>
-            <Input
-              name='lat'
-              type='number'
-              value={lat}
-              onChange={e => setLat(e.target.value)}
-              placeholder='Latitude'
-              required
-            />
-
-            <Input
-              name='lng'
-              type='number'
-              value={lng}
-              onChange={e => setLng(e.target.value)}
-              placeholder='Longitude'
-              required
+          {/* MAP PICKER */}
+          <div className='mt-4'>
+            <p className='text-xs text-muted-foreground mb-1'>
+              Or tap on the map to set the sauna location.
+            </p>
+            <MapPicker
+              lat={lat}
+              lng={lng}
+              onChange={(newLat, newLng) => {
+                setLat(newLat);
+                setLng(newLng);
+              }}
             />
           </div>
-
-          <Button
-            type='button'
-            variant='outline'
-            onClick={getLocation}
-            disabled={isGettingLocation}
-            className='mt-2 bg-accent'>
-            {isGettingLocation
-              ? "Getting location..."
-              : "Use current location"}
-          </Button>
-
-          {locationError && (
-            <p className='text-sm text-red-500'>{locationError}</p>
-          )}
         </div>
+
+        <Button
+          type='button'
+          variant='outline'
+          onClick={getLocation}
+          disabled={isGettingLocation}
+          className='mt-2 bg-accent'>
+          {isGettingLocation
+            ? "Getting location..."
+            : "Use current location"}
+        </Button>
+
+        {locationError && (
+          <p className='text-sm text-red-500'>{locationError}</p>
+        )}
 
         {/* SUBMIT */}
         <Button

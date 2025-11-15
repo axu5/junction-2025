@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -56,13 +58,15 @@ export default function AddFriendPage() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-start gap-y-6 mt-6'>
-      <div className='text-center space-y-1'>
-        <h1 className='font-semibold text-2xl'>Add friends</h1>
-        <p className='text-sm text-muted-foreground max-w-md'>
-          Send a friend request by typing their email. Once they
-          accept, you&apos;ll see each other&apos;s sauna experiences.
-        </p>
+    <div className='flex flex-col items-center justify-start gap-y-6'>
+      <div className='flex w-full flex-row items-center justify-between gap-y-2'>
+        <Link
+          href='/profile/friends'
+          className='flex flex-row items-center gap-x-2'>
+          <ChevronLeft />
+        </Link>
+        <h1 className='font-semibold text-2xl'>Add Friend</h1>
+        <div />
       </div>
 
       <Card className='w-full max-w-md p-4 space-y-4'>
