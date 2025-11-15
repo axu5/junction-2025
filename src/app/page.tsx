@@ -161,10 +161,10 @@ export default async function Home() {
     <div className='flex min-h-screen flex-col gap-y-8'>
       {/* HERO */}
       <section className='flex flex-col gap-y-2'>
-        <h1 className='font-semibold text-2xl'>
-          Discover Saunas Around You
+        <h1 className='font-semibold text-2xl text-center'>
+          Discover Saunas
         </h1>
-        <p className='text-sm text-muted-foreground'>
+        <p className='text-sm text-muted-foreground text-center text-balance'>
           {isLoggedIn
             ? "See your friends' latest sauna experiences and explore public saunas."
             : "Browse public saunas and read real experiences from the community."}

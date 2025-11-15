@@ -182,10 +182,10 @@ export default async function SaunaPage({
           cta={
             <>
               <Star className='w-4 h-4' /> Be the first to leave a
-              review
+              public review
             </>
           }
-          info={`No reviews for ${saunaInfo.name}`}
+          info={`No public reviews for ${saunaInfo.name}`}
           ctaHref={`/new-sauna-experience?sauna_id=${saunaInfo.id}`}
         />
       )}

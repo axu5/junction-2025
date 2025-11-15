@@ -12,7 +12,7 @@ type SoEmptyProps = {
 export function SoEmpty({ info, ctaHref, cta }: SoEmptyProps) {
   return (
     <>
-      <span className='italic text-center'>{info}</span>
+      <span className='italic text-center text-balance'>{info}</span>
 
       <Link
         href={ctaHref}

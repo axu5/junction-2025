@@ -90,13 +90,13 @@ async function Navbar() {
             {isLoggedIn ? (
               <Link
                 href='/new-sauna-experience'
-                className='border-black block rounded-full border-2'>
-                <Plus className='w-6 h-6 m-2' />
+                className='border-neutral-700/25 block rounded-full border-2'>
+                <Plus className='w-6 h-6 mx-4 my-2' />
               </Link>
             ) : (
               <LoginRequiredDrawer>
-                <div className='border-black block rounded-full border-2'>
-                  <Plus className='w-6 h-6 m-2' />
+                <div className='border-neutral-700/25 block rounded-full border-2'>
+                  <Plus className='w-6 h-6 mx-4 my-2' />
                 </div>
               </LoginRequiredDrawer>
             )}
