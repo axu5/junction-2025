@@ -289,8 +289,9 @@ export default async function Home() {
                       {s.name ?? "Unnamed sauna"}
                     </span>
                     <span className='text-xs text-neutral-500 flex items-center gap-1'>
-                      <MapPin className='w-3 h-3' />({s.latitude},{" "}
-                      {s.longitude})
+                      <MapPin className='w-3 h-3' />(
+                      {s.latitude.toFixed(2)},{" "}
+                      {s.longitude.toFixed(2)})
                     </span>
                     <span className='text-xs text-neutral-500 mt-1'>
                       {s.ratingCount > 0

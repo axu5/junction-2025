@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Command,
@@ -18,6 +18,7 @@ import { UploadButton } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
 import { CameraOff, Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -172,6 +173,15 @@ export default function NewSaunaExperienceClient({
               )}
             </CommandList>
           </Command>
+
+          <Link
+            href='/profile/saunas/add'
+            className={buttonVariants({
+              variant: "outline",
+              className: "w-full my-2",
+            })}>
+            Don&apos;t see your sauna? Add it
+          </Link>
         </Card>
       ) : null}
 

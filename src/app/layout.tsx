@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth";
 import {
   Flame,
   Gamepad2,
+  Home,
   LogIn,
   Medal,
   Plus,
@@ -59,7 +60,9 @@ export default function RootLayout({
           </Link>
         </div>
 
-        <main className='px-10 mb-24'>{children}</main>
+        <main className='px-10 mb-24 max-w-md mx-auto'>
+          {children}
+        </main>
 
         <Navbar />
         <Toaster position='top-center' />
@@ -77,8 +80,8 @@ async function Navbar() {
       <div className='max-w-md px-4'>
         <ul className='flex justify-evenly flex-row items-center gap-x-5'>
           <li className='py-2'>
-            <Link href='/games' className=''>
-              <Gamepad2 className='w-5 h-5 m-2' />
+            <Link href='/' className=''>
+              <Home className='w-5 h-5 m-2' />
             </Link>
           </li>
           <li className='py-2'>

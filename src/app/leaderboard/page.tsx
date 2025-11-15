@@ -5,7 +5,7 @@ export default function Leaderboard() {
   return (
     <div className='flex flex-col gap-y-5'>
       <div className='flex w-full flex-row items-center justify-center'>
-        <h1 className='font-semibold text-2xl'>My Experiences</h1>
+        <h1 className='font-semibold text-2xl'>Leaderboard</h1>
       </div>
 
       <div className='flex flex-col items-center gap-y-3'>
