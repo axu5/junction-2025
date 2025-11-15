@@ -80,6 +80,14 @@ export function ExperienceRenderer({
             </span>
           </div>
         </div>
+
+        {exp.authorId === userId && (
+          <Button
+            className='flex flex-row items-center h-8 w-6 bg-neutral-300 shadow-none'
+            onClick={deleteExperience}>
+            <Trash className='stroke-black' />
+          </Button>
+        )}
       </div>
 
       <div className='flex flex-row items-center'>
@@ -112,14 +120,6 @@ export function ExperienceRenderer({
             className='w-full max-h-80 object-cover rounded-lg'
           />
         </div>
-      )}
-
-      {exp.authorId === userId && (
-        <Button
-          className='flex flex-row items-center'
-          onClick={deleteExperience}>
-          <Trash /> Delete experience
-        </Button>
       )}
     </Card>
   );

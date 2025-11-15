@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { InsertSauna } from "@/db/schema";
 import { UploadButton } from "@/lib/uploadthing";
+import { ChevronLeft, Plus } from "lucide-react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -85,11 +87,14 @@ export default function AddSaunaForm() {
 
   return (
     <div className='flex flex-col gap-y-5'>
-      <div className='flex w-full flex-col items-center justify-center'>
-        <h1 className='font-semibold text-2xl'>Add a sauna</h1>
-        <span className='text-sm'>
-          Fields marked with * are required
-        </span>
+      <div className='flex w-full flex-row items-center justify-between gap-y-2'>
+        <Link
+          href='/profile/saunas'
+          className='flex flex-row items-center gap-x-2'>
+          <ChevronLeft />
+        </Link>
+        <h1 className='font-semibold text-2xl'>Add Sauna</h1>
+        <div />
       </div>
 
       <form className='flex flex-col gap-y-6' onSubmit={handleSubmit}>
@@ -110,16 +115,18 @@ export default function AddSaunaForm() {
           <Label>Add an image</Label>
 
           {!imageUrl && (
-            <UploadButton
-              endpoint='saunaImage'
-              onClientUploadComplete={res => {
-                if (!res?.[0]) return;
-                setImageUrl(res[0].url);
-              }}
-              onUploadError={err => {
-                console.error("UploadThing Error:", err);
-              }}
-            />
+            <div className='bg-accent rounded-md shadow-sm py-3 px-2'>
+              <UploadButton
+                endpoint='saunaImage'
+                onClientUploadComplete={res => {
+                  if (!res?.[0]) return;
+                  setImageUrl(res[0].url);
+                }}
+                onUploadError={err => {
+                  console.error("UploadThing Error:", err);
+                }}
+              />
+            </div>
           )}
 
           {imageUrl && (
@@ -143,9 +150,11 @@ export default function AddSaunaForm() {
         {/* VISIBILITY */}
         <div className='flex flex-col gap-y-2'>
           <Label>Visibility</Label>
-          <div className='flex items-center justify-between p-3 border rounded-xl bg-bg-surface'>
+          <div className='flex items-center justify-between p-3 border rounded-xl bg-bg-surface bg-accent'>
             <span className='text-sm'>
-              Public (visible to everyone)
+              {visibility === "public"
+                ? "Public (visible to everyone)"
+                : "Unlisted (visible to friends)"}
             </span>
 
             <Switch
@@ -186,7 +195,7 @@ export default function AddSaunaForm() {
             variant='outline'
             onClick={getLocation}
             disabled={isGettingLocation}
-            className='mt-2'>
+            className='mt-2 bg-accent'>
             {isGettingLocation
               ? "Getting location..."
               : "Use current location"}
@@ -207,7 +216,7 @@ export default function AddSaunaForm() {
             rounded-xl py-2.5
             shadow-sm
           '>
-          Add sauna
+          <Plus className='w-4 h-4' /> Add Sauna
         </Button>
       </form>
     </div>

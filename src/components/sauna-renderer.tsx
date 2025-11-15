@@ -37,8 +37,14 @@ export function SaunaRenderer({ sauna }: SaunaRendererProps) {
         <Link
           href={`/saunas/${sauna.id}`}
           className='flex flex-row justify-between items-center'>
-          {sauna.name}
-          <ChevronRight className='w-4 h-4' />
+          <span className='flex flex-row items-center gap-x-2 text-2xl'>
+            {sauna.name}
+          </span>
+          <Button
+            className='flex flex-row items-center h-8 w-6 bg-neutral-300 shadow-none'
+            onClick={() => deleteSauna(sauna.id)}>
+            <Trash className='stroke-black' />
+          </Button>
         </Link>
       </CardHeader>
       <CardContent>
@@ -58,13 +64,6 @@ export function SaunaRenderer({ sauna }: SaunaRendererProps) {
           </div>
         )}
       </CardContent>
-      <CardFooter>
-        <Button
-          className='flex flex-row items-center gap-x-2'
-          onClick={() => deleteSauna(sauna.id)}>
-          <Trash className='w-4 h-4' />
-        </Button>
-      </CardFooter>
     </Card>
   );
 }

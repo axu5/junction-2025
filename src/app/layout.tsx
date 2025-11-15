@@ -43,24 +43,7 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className='flex flex-row items-center justify-center w-screen py-6'>
-          <Link
-            href='/'
-            className='flex flex-row gap-x-2 items-center font-semibold text-2xl'>
-            <div>
-              <Image
-                className='object-cover'
-                src='/saunapoint.png'
-                alt='Saunapoint logo'
-                width={32}
-                height={32}
-              />
-            </div>
-            Saunapoint
-          </Link>
-        </div>
-
-        <main className='px-10 mb-24 max-w-md mx-auto'>
+        <main className='mb-24 max-w-md px-4 pt-6 mx-auto'>
           {children}
         </main>
 
@@ -76,8 +59,8 @@ async function Navbar() {
   const isLoggedIn = !!session;
 
   return (
-    <nav className='fixed bottom-5 left-1/2 -translate-x-1/2 rounded-full backdrop-blur-xl bg-white/20 shadow-lg border border-white/10'>
-      <div className='max-w-md px-4'>
+    <nav className='fixed bottom-0 left-1/2 -translate-x-1/2 bg-white w-screen h-16'>
+      <div className='max-w-[80%] mx-auto px-4'>
         <ul className='flex justify-evenly flex-row items-center gap-x-5'>
           <li className='py-2'>
             <Link href='/' className=''>
@@ -85,8 +68,8 @@ async function Navbar() {
             </Link>
           </li>
           <li className='py-2'>
-            <Link href='/leaderboard' className=''>
-              <Medal className='w-5 h-5 m-2' />
+            <Link href='/sauna-experiences' className=''>
+              <Flame className='w-5 h-5 m-2' />
             </Link>
           </li>
           <li className='py-2'>
@@ -105,8 +88,8 @@ async function Navbar() {
             )}
           </li>
           <li className='py-2'>
-            <Link href='/sauna-experiences' className=''>
-              <Flame className='w-5 h-5 m-2' />
+            <Link href='/leaderboard' className=''>
+              <Medal className='w-5 h-5 m-2' />
             </Link>
           </li>
           {session ? (

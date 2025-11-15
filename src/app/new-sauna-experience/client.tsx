@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { InsertExperience } from "@/db/schema";
 import { UploadButton } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
-import { CameraOff, Star } from "lucide-react";
+import { CameraOff, Plus, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -118,12 +118,9 @@ export default function NewSaunaExperienceClient({
   return (
     <div className='flex flex-col gap-y-6'>
       <div className='flex w-full flex-col items-center justify-center'>
-        <h1 className='font-semibold text-2xl'>
-          New sauna experience
+        <h1 className='font-semibold tracking-wide text-2xl'>
+          New Sauna Experience
         </h1>
-        <span className='text-sm text-muted-foreground'>
-          Share your latest heat session with friends.
-        </span>
       </div>
 
       {shouldShowPicker ? (
@@ -177,10 +174,10 @@ export default function NewSaunaExperienceClient({
           <Link
             href='/profile/saunas/add'
             className={buttonVariants({
-              variant: "outline",
-              className: "w-full my-2",
+              variant: "ghost",
+              className: "w-full my-2 bg-patrik-orange",
             })}>
-            Don&apos;t see your sauna? Add it
+            <Plus /> Add Sauna
           </Link>
         </Card>
       ) : null}

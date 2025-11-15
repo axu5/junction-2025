@@ -123,7 +123,7 @@ export default async function SaunaPage({
     <div className='flex flex-col gap-y-5'>
       <div>
         {saunaInfo.imageUrl !== null ? (
-          <div className='bg-neutral-200 w-full gap-x-2 aspect-video flex items-center justify-center rounded-lg'>
+          <div className='bg-neutral-200 w-full gap-x-2 aspect-video flex items-center justify-center'>
             <Image
               className='object-cover w-full max-h-full rounded-lg'
               src={saunaInfo.imageUrl}
@@ -193,7 +193,10 @@ export default async function SaunaPage({
       {experiences.length > 0 && (
         <>
           <Link
-            className={buttonVariants({ variant: "ghost" })}
+            className={buttonVariants({
+              variant: "ghost",
+              className: "bg-accent",
+            })}
             href={`/new-sauna-experience?sauna_id=${saunaInfo.id}`}>
             <NotepadText className='w-4 h-4' /> Leave a review
           </Link>

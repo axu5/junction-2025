@@ -18,7 +18,9 @@ export default async function SaunaExperiences() {
   return (
     <div className='flex flex-col gap-y-5'>
       <div className='flex w-full flex-row items-center justify-center'>
-        <h1 className='font-semibold text-2xl'>My Experiences</h1>
+        <h1 className='font-semibold tracking-wide text-2xl'>
+          My Experiences
+        </h1>
       </div>
 
       {experiences.length === 0 ? (

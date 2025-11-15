@@ -17,7 +17,10 @@ export function SoEmpty({ info, ctaHref, cta }: SoEmptyProps) {
       <Link
         href={ctaHref}
         className={cn(
-          buttonVariants({ variant: "ghost" }),
+          buttonVariants({
+            variant: "outline",
+            className: "bg-accent",
+          }),
           "flex flex-row items-center gap-x-2"
         )}>
         {cta}

@@ -165,15 +165,12 @@ export default async function Leaderboard() {
   return (
     <div className='flex flex-col gap-y-5'>
       <div className='flex w-full flex-row items-center justify-center'>
-        <h1 className='font-semibold text-2xl'>Leaderboard</h1>
+        <h1 className='font-semibold tracking-wide text-2xl'>
+          Friend Leaderboard
+        </h1>
       </div>
 
       <div className='flex flex-col gap-y-4'>
-        <p className='text-sm text-muted-foreground text-center'>
-          Top sauna goers in the last 30 days between you and your
-          friends.
-        </p>
-
         <div className='flex flex-col gap-y-2'>
           {leaderboard.map((row, index) => (
             <Card key={row.userId} className='p-3'>

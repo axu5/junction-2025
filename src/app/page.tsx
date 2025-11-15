@@ -12,7 +12,7 @@ import {
 import { getSession } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { eq, and, or, desc, asc, sql, inArray } from "drizzle-orm";
-import { Flame, MapPin, UserRound } from "lucide-react";
+import { Flame, MapPin, Plus, Star, UserRound } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { LoginRequiredDrawer } from "@/components/login-required-drawer";
@@ -44,8 +44,7 @@ export default async function Home() {
     .orderBy(
       desc(saunaTable.ratingCount),
       desc(saunaTable.averageRating)
-    )
-    .limit(6);
+    );
 
   // ---- PUBLIC EXPERIENCES (for logged-out users) ----
   const publicExperiences = await db
@@ -158,34 +157,39 @@ export default async function Home() {
   const isLoggedIn = !!session;
 
   return (
-    <div className='flex min-h-screen flex-col gap-y-8'>
+    <div className='flex min-h-screen flex-col gap-y-3'>
       {/* HERO */}
       <section className='flex flex-col gap-y-2'>
-        <h1 className='font-semibold text-2xl text-center'>
+        <h1 className='font-semibold tracking-wide text-2xl text-center'>
           Discover Saunas
         </h1>
-        <p className='text-sm text-muted-foreground text-center text-balance'>
+        {/* <p className='text-sm text-muted-foreground text-center text-balance'>
           {isLoggedIn
             ? "See your friends' latest sauna experiences and explore public saunas."
             : "Browse public saunas and read real experiences from the community."}
-        </p>
+        </p> */}
       </section>
 
       {/* LOGGED-IN: FRIENDS FEED */}
       {isLoggedIn && (
         <section className='flex flex-col gap-y-3'>
-          <div className='flex flex-col gap-y-2 items-center justify-between'>
+          <Link
+            href='/new-sauna-experience'
+            className={cn(
+              buttonVariants({
+                variant: "outline",
+                size: "sm",
+                className: "bg-accent mx-auto",
+              })
+            )}>
+            <Plus className='w-4 h-4' />
+            Log an experience
+          </Link>
+          <div className='flex flex-col gap-y-2 justify-between'>
             <h2 className='text-sm font-semibold flex items-center gap-2'>
               <Flame className='w-4 h-4' /> Friends' recent
               experiences
             </h2>
-            <Link
-              href='/new-sauna-experience'
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" })
-              )}>
-              Log an experience
-            </Link>
           </div>
 
           {friendsExperiences && friendsExperiences.length === 0 && (
@@ -247,13 +251,6 @@ export default async function Home() {
           <h2 className='text-sm font-semibold flex items-center gap-2'>
             <MapPin className='w-4 h-4' /> Explore public saunas
           </h2>
-          <Link
-            href='/saunas'
-            className={cn(
-              buttonVariants({ variant: "ghost", size: "sm" })
-            )}>
-            View all
-          </Link>
         </div>
 
         {publicSaunas.length === 0 && (
@@ -268,7 +265,7 @@ export default async function Home() {
           <div className='grid grid-cols-1 gap-3'>
             {publicSaunas.map(s => (
               <Link key={s.id} href={`/saunas/${s.id}`}>
-                <Card className='flex flex-row gap-3 p-3 items-center'>
+                <Card className='flex flex-row gap-3 p-1 items-center'>
                   <div className='w-20 h-20 rounded-lg overflow-hidden bg-neutral-200 flex items-center justify-center'>
                     {s.imageUrl ? (
                       <Image
@@ -284,8 +281,8 @@ export default async function Home() {
                       </span>
                     )}
                   </div>
-                  <div className='flex flex-col flex-1'>
-                    <span className='text-sm font-medium'>
+                  <div className='flex flex-col gap-y-1'>
+                    <span className='text-md font-medium'>
                       {s.name ?? "Unnamed sauna"}
                     </span>
                     <span className='text-xs text-neutral-500 flex items-center gap-1'>
@@ -293,13 +290,27 @@ export default async function Home() {
                       {s.latitude.toFixed(2)},{" "}
                       {s.longitude.toFixed(2)})
                     </span>
-                    <span className='text-xs text-neutral-500 mt-1'>
-                      {s.ratingCount > 0
-                        ? `${s.averageRating.toFixed(1)} · ${s.ratingCount} review${
-                            s.ratingCount !== 1 ? "s" : ""
-                          }`
-                        : "No reviews yet"}
-                    </span>
+                    <div className='flex flex-row items-center gap-x-2'>
+                      <div className='flex flex-row items-center'>
+                        {new Array(5).fill(null).map((_, i) => (
+                          <Star
+                            key={`star-rating-${i}`}
+                            className={cn(
+                              "w-4 h-4 stroke-0 fill-neutral-400",
+                              {
+                                "fill-yellow-500":
+                                  Math.round(s.averageRating) > i,
+                              }
+                            )}
+                          />
+                        ))}
+                      </div>
+                      <span className='text-sm'>
+                        {s.averageRating.toFixed(1)} ({s.ratingCount}{" "}
+                        review
+                        {s.ratingCount !== 1 && "s"})
+                      </span>
+                    </div>
                   </div>
                 </Card>
               </Link>
@@ -356,8 +367,15 @@ function ExperienceCard({
               })}
             </span>
           </div>
-          <span className='ml-auto text-xs text-neutral-600'>
-            {exp.rating}/5
+          <span className='ml-auto text-xs text-neutral-600 flex flex-row'>
+            {new Array(5).fill(null).map((_, i) => (
+              <Star
+                key={`star-rating-${i}`}
+                className={cn("w-4 h-4 stroke-0 fill-neutral-400", {
+                  "fill-yellow-500": Math.round(exp.rating) > i,
+                })}
+              />
+            ))}
           </span>
         </div>
 
