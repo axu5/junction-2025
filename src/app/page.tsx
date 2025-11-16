@@ -16,6 +16,11 @@ import { Flame, MapPin, Plus, Star, UserRound } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { LoginRequiredDrawer } from "@/components/login-required-drawer";
+import {
+  FriendSaunaPoint,
+  getFriendsSaunaMapPoints,
+} from "@/lib/get-friends-sauna-map-points";
+import { FriendsExperiencesMap } from "@/components/friends-experience-map";
 
 /**
  * Logged-out -> See public saunas, read public experiences.
@@ -156,6 +161,11 @@ export default async function Home() {
 
   const isLoggedIn = !!session;
 
+  let friendsMapPoints: FriendSaunaPoint[] = [];
+  if (currentUserId) {
+    friendsMapPoints = await getFriendsSaunaMapPoints(currentUserId);
+  }
+
   return (
     <div className='flex min-h-screen flex-col gap-y-3'>
       {/* HERO */}
@@ -173,6 +183,10 @@ export default async function Home() {
       {/* LOGGED-IN: FRIENDS FEED */}
       {isLoggedIn && (
         <section className='flex flex-col gap-y-3'>
+          {friendsMapPoints.length > 0 && (
+            <FriendsExperiencesMap points={friendsMapPoints} />
+          )}
+
           <Link
             href='/new-sauna-experience'
             className={cn(
