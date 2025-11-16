@@ -19,6 +19,7 @@ export default function AddSaunaForm() {
   const [visibility, setVisibility] = useState<"public" | "unlisted">(
     "unlisted"
   );
+  const [isCreating, setIsCreating] = useState(false);
 
   const [lat, setLat] = useState<number>(60.1699);
   const [lng, setLng] = useState<number>(24.9384);
@@ -57,6 +58,7 @@ export default function AddSaunaForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsCreating(true);
 
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
@@ -78,10 +80,12 @@ export default function AddSaunaForm() {
 
     if (!res.ok) {
       toast.error("Something went wrong, try again later");
+      setIsCreating(false);
       return;
     }
 
     const { saunaId } = await res.json();
+    setIsCreating(false);
 
     redirect(`/saunas/${saunaId}`);
   };
@@ -119,6 +123,11 @@ export default function AddSaunaForm() {
             <div className='bg-accent rounded-md shadow-sm py-3 px-2'>
               <UploadButton
                 endpoint='saunaImage'
+                appearance={{
+                  button: {
+                    color: "var(--color-accent-foreground)",
+                  },
+                }}
                 onClientUploadComplete={res => {
                   if (!res?.[0]) return;
                   setImageUrl(res[0].url);
@@ -205,6 +214,7 @@ export default function AddSaunaForm() {
         {/* SUBMIT */}
         <Button
           type='submit'
+          disabled={isCreating}
           className='
             bg-accent
             hover:bg-accent-soft

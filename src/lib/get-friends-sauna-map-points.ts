@@ -49,6 +49,8 @@ export async function getFriendsSaunaMapPoints(
     }
   }
 
+  friendIds.add(currentUserId);
+
   if (friendIds.size === 0) return [];
 
   const friendIdsArray = Array.from(friendIds);

@@ -223,6 +223,12 @@ export default function NewSaunaExperienceClient({
 
             {!imageUrl && (
               <UploadButton
+                className='border-2 border-dashed rounded-md px-4 py-2'
+                appearance={{
+                  button: {
+                    color: "var(--color-accent-foreground)",
+                  },
+                }}
                 endpoint='experienceImage'
                 onClientUploadComplete={res => {
                   if (!res?.[0]) return;
